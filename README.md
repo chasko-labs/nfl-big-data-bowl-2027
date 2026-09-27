@@ -20,6 +20,7 @@ announced yet - this collection exists to be ready the day it drops.
 - `docs/data-guide.md` - next gen stats spec, file layouts, how to download
 - `docs/craft.md` - judging rubric, format limits, patton 20 tips, yurko method
 - `docs/2027-prediction.md` - topic forecast + prep checklist
+- `docs/seed-plan.md` - local data seeding phases + status
 - `docs/references.md` - every source url, grouped
 - `docs/talk-notes.md` - one-page cheat sheet for the presentation
 - `data/` - local tracking data (gitignored, see `data/README.md`)
