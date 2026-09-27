@@ -1,10 +1,11 @@
 # nfl big data bowl 2027
 
-research base + working repo for the nfl big data bowl, the annual sports
-analytics contest from nfl football operations (powered by aws) where
+bryan chasko's personal collection of big data bowl resources to prep
+for this year's contest. unofficial - just one builder's notes on the
+annual nfl football operations contest (powered by aws) where
 contestants turn next gen stats player tracking data into new stats.
 eight editions run so far (2019-2026). the 2027 edition has not been
-announced yet - this repo exists so we are ready the day it drops.
+announced yet - this collection exists to be ready the day it drops.
 
 ## status
 
