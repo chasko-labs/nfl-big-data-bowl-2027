@@ -28,7 +28,7 @@ goal: invent stats good enough for tv and team analytics departments.
 - 2022 special teams - punt-return optimal path + raye [16]
 - 2023 pass rush - pocket pressure -> pressure probability [17][27]
 - 2024 tackling - missed-tackle metric -> tackle probability [20][28]
-- 2025 pre-snap - tendency prediction, transformers arrive [23][47]
+- 2025 pre-snap - nyu exposes coverage tells, wins it all [55][56]
 - 2026 movement prediction - first public leaderboard vs ngs truth,
   ghostbusters takes analytics [30]
 

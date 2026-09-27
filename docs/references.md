@@ -73,9 +73,16 @@ the docs say which is which where it matters.
 - [53] patton advice thread, @anpatt7 jan 13 2024 (x blocks fetches; full text preserved in craft.md): https://x.com/anpatt7
 - [54] aws builder center 2026 guide (antje barth): https://builder.aws.com/content/2oAsAXNgbmcR3gXCCTANimEePA7/learn-build-and-launch-with-aws-for-the-nfl-big-data-bowl-2026
 
+## corroboration + league records (sep 2026 update)
+
+- [55] nyu stern, 2025 winners bajaj + sandwar ($25k, combine): https://www.stern.nyu.edu/experience-stern/news/undergraduate-college-alumnus-vishakh-sandwar-bs-25-featured-indian-origin-nyu-students-win-nfls-big
+- [56] sumersports, 2025 nyu victory on their framework: https://sumersports.com/the-zone/nyu-team-clinches-2025-nfl-big-data-bowl-victory-using-sumersports-framework/
+- [57] league winner/finalist records 2019-2026 (grand prize titles, team names, schools) via bryan; spot-corroborated against [9][20][24][55][56]. individual kaggle/nfl.com winner pages not yet linked - close that gap when time permits.
+
 ## known gaps (do not cite as settled)
 
-2025 overall winner name; 2026 prediction names/scores; 2026 eval api
-mechanics; official data dictionary; pff scouting schema; 2023 winner
-names; coverage classification vs responsibility naming; 2019/2022 tv
-lineage (none found); 2021 college winners; early-year prize pools.
+2026 prediction names/scores; 2026 eval api mechanics; official data
+dictionary; pff scouting schema; coverage classification vs
+responsibility naming; 2019/2022 tv lineage (none found); 2021
+college winners; early-year prize pools; direct urls for each year's
+winner announcement.
