@@ -1,0 +1,13 @@
+# data stays out of git - too big, and kaggle rules require accepting terms per user
+data/*.csv
+data/*.zip
+data/*.parquet
+*.csv
+*.parquet
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.DS_Store
