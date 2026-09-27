@@ -1,4 +1,4 @@
-# nfl big data bowl
+# nfl big data bowl 2027
 
 research base + working repo for the nfl big data bowl, the annual sports
 analytics contest from nfl football operations (powered by aws) where
