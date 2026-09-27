@@ -28,6 +28,7 @@ dictionary before modeling.
 | event                  | tags: snap, release, catch, tackle, etc                |
 | frameId                | frame counter, starts at 1                             |
 | nflId                  | player id; NA means the ball                           |
+| frameType              | play phase tag (2025 only, absent in 2024)             |
 | absoluteYardlineNumber | tracking coord 11-109, flips with drive direction [44] |
 
 keys and joins: gameId, gameId+playId, nflId. joins to nflverse via
@@ -42,9 +43,11 @@ old_game_id / play_id [43].
 - 2023: games/players/plays/pffscoutingdata + weeks 1-8 tracking,
   ~1.5gb per weekly csv [44].
 - 2024: games/plays/players/tackles + tracking weeks 1-9 [26b][43].
-- 2025: weeks 1-9 2022 again (overlap with 2024 unresolved), 16,124
-  plays / 136 games per a weak mirror [25]. player_play.csv schema
-  change unverified.
+- 2025: weeks 1-9 2022 again (overlap with 2024 unresolved),
+  16,124 plays / 136 games confirmed from seeded data [25].
+  player_play.csv verified: 53 cols incl. inMotionAtBallSnap,
+  shift/motionSinceLineset, wasRunningRoute, routeRan,
+  pff_defensiveCoverageAssignment + matchup nflIds.
 - 2026: 49 files, weekly train csvs, test through an eval api. train
   2023-24, scored vs 2025 weeks 14-18 [30][33]. ~18,009 pass plays
   per a preprint [35].
@@ -73,3 +76,5 @@ see `data/README.md`. kaggle cli + accept the rules per competition.
   everything is mirrors. grab the real one from kaggle at entry time.
 - no pff scouting schema despite pff data in 2022/2023.
 - no 2026 eval api mechanics documented outside kaggle.
+- joins to nflverse verified 100%: (old_game_id, play_id), cast
+  play_id to int first (reads as float).

@@ -1,68 +1,63 @@
 # seed plan
 
 what local data we keep, in what order, and why. decided 2026-09-27
-from the deep-research seed audit. `data/` is gitignored; this doc is
-the record of what should be in it.
+from the deep-research seed audit, updated for the no-kaggle path
+(bryan has no kaggle account, so kaggle is out entirely). `data/` is
+gitignored; this doc is the record of what should be in it.
 
 ## state
 
-- [x] 2024 full set seeded (sumersports mirror, validated 136 games /
-      12,486 plays, joins pass)
-- [ ] kaggle auth (bryan browser clicks - see below)
-- [ ] 2025 full set (~7.7gb)
-- [ ] 2023 set (~12gb, optional)
-- [ ] nflverse pbp (488mb, optional joins)
+- [x] 2024 full set (sumersports mirror, 136 games / 12,486 plays)
+- [x] 2025 full set (huggingface mirror, 136 games / 16,124 plays)
+- [x] 2019 sample (official repo, 1 game by design)
+- [x] nflverse 2017 + 2022 pbp (100% join verified)
+- [ ] 2023/2022/2021/2020/2026 tracking: no public mirrors exist
 
 environment: 195gb free on /home, 46gb ram free for pandas. project
-`.venv` has kaggle cli 2.2.4 + pandas. disk fits everything.
+`.venv` has kaggle cli, pandas, pyarrow, huggingface_hub. working
+set totals ~9.5gb.
 
-## phase 0 - done: 2024 smoke + full (1.6gb)
+## seeded: 2024 tackling (1.6gb)
 
-2024 tackling is the clean modern layout (games/plays/players/tackles
+clean modern layout (games/plays/players/tackles + tracking weeks
+1-9) from SumerSports/SportsTrackingTransformer data-v1.0 (kaggle
+removed the official release). validated:
 
-- tracking weeks 1-9) and the only set available without kaggle auth,
-  because kaggle removed the official release. seeded from
-  SumerSports/SportsTrackingTransformer data-v1.0 and validated:
+- 136 games, 12,486 plays, 1,683 players, 17,426 tackles
+- tracking cols: gameId playId nflId ... frameId x y s a dis o dir
+  event
+- every plays.gameId resolves in games.csv
 
-* 136 games, 12,486 plays, 1,683 players, 17,426 tackles
-* tracking cols match spec: gameId playId nflId ... frameId x y s a
-  dis o dir event
-* every plays.gameId resolves in games.csv
+## seeded: 2025 pre-snap (7.7gb)
 
-## phase 1 - after kaggle auth: 2025 full (~7.7gb)
+from huggingface public mirror `ameau01/Big-Data-Bowl-2025` (no
+auth needed). validated:
 
-2025 pre-snap is the other modern layout and the most relevant recent
-tactics data: games/players/plays/player_play (51mb) + 9 tracking
-weeks at 739-931mb each.
+- 136 games, 16,124 plays (confirms the earlier weak-mirror claim)
+- player_play.csv: 53 cols incl. inMotionAtBallSnap,
+  shift/motionSinceLineset, wasRunningRoute, routeRan,
+  pff_defensiveCoverageAssignment + matchup nflIds
+- tracking adds a `frameType` col vs 2024 - handle in loaders
 
-caution: 2024 and 2025 both claim weeks 1-9 2022 with different play
-counts (12,486 vs 16,124). before treating them as one corpus, diff
-gameId sets. do not assume they are the same plays.
+caution: 2024 and 2025 both cover weeks 1-9 2022 with different
+play counts (12,486 vs 16,124). diff gameId sets before treating
+them as one corpus.
 
-## phase 2 - optional: 2023 + nflverse
+## seeded: 2019 sample (60mb) + nflverse joins (38mb)
 
-- 2023 pass rush: games/players/plays/pffscoutingdata + weeks 1-8,
-  ~1.5gb/week (~12gb). worth it only if 2027 touches the trenches
-  (run blocking is candidate #3 in the forecast). naming conflict
-  unresolved: weekN.csv vs tracking_week_N.csv - check the file
-  list after auth.
-- nflverse pbp 1999-2025 (488mb, 372 cols): joins bowl gameId/playId
-  at 100% per community reports. pull if we need down/distance,
-  epa, or roster context beyond the bowl files.
+- 2019: shallow clone of nfl-football-ops/big-data-bowl. the league
+  intentionally ships only one game of tracking + full schema docs;
+  the 91-game set was pulled. reference only.
+- nflverse pbp 2017 + 2022 parquet join bowl plays 100% on
+  (old_game_id, play_id). gotcha: play_id reads as float, cast to
+  int before joining.
 
-## explicitly not seeded
+## explicitly not seeded (dead ends documented)
 
-- 2026 prediction/analytics: 49 files, ~5m frames, but no per-file
-  sizes, disputed analytics layout, eval-api mechanics undocumented
-  outside kaggle. defer until authed file list + docs.
-- 2022: no file names/sizes, pff schema undocumented. unplannable.
-- 2021: season conflict (2019 vs 2018 across sources), older schema.
-  low roi vs 2024/2025.
-- 2020/2019: obsolete layouts, reference only.
-
-## bryan action items (the only blockers)
-
-1. kaggle.com sign-in + accept rules on: 2025, 2023,
-   2026-prediction, 2026-analytics (2024 skipped - removed)
-2. api token -> `~/.kaggle/kaggle.json`, chmod 600
-3. say go - downloads + validation run from there
+- 2026/2023/2022/2021/2020 tracking: checked huggingface (one hit:
+  the 2025 mirror, nothing else), github releases and entry repos
+  (all kb-sized, no vendored data), archive.org uploads (zero),
+  wayback machine (only kaggle's 5.5kb js shell page archived -
+  data files were auth-walled, never archivable). nothing public.
+- a kaggle account would unlock all of the above. revisit if one
+  ever exists; slugs are in this file's git history.
