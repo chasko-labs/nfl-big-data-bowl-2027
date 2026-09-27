@@ -1,7 +1,6 @@
-# data stays out of git - too big, and kaggle rules require accepting terms per user
-data/*.csv
-data/*.zip
-data/*.parquet
+# data stays out of git - too big, plus competition terms attach per user
+data/*
+!data/README.md
 *.csv
 *.parquet
 *.zip
