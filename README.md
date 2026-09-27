@@ -24,6 +24,8 @@ announced yet - this collection exists to be ready the day it drops.
 - `docs/references.md` - every source url, grouped
 - `docs/talk-notes.md` - one-page cheat sheet for the presentation
 - `data/` - local tracking data (gitignored, see `data/README.md`)
+- `samples/` - runnable 25-play slices that ship in git
+- `scripts/` - sample generator (`make_samples.py`)
 - `notebooks/` - starter analysis notebooks (see `notebooks/README.md`)
 
 ## the one-paragraph version

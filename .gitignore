@@ -4,6 +4,8 @@ data/*
 *.csv
 *.parquet
 *.zip
+# ...except curated presentation samples, which ship deliberately
+!samples/**/*.csv
 __pycache__/
 *.pyc
 .pytest_cache/
