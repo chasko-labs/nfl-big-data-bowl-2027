@@ -79,6 +79,18 @@ the docs say which is which where it matters.
 - [56] sumersports, 2025 nyu victory on their framework: https://sumersports.com/the-zone/nyu-team-clinches-2025-nfl-big-data-bowl-victory-using-sumersports-framework/
 - [57] league winner/finalist records 2019-2026 (grand prize titles, team names, schools) via bryan; spot-corroborated against [9][20][24][55][56]. individual kaggle/nfl.com winner pages not yet linked - close that gap when time permits.
 
+## tooling + scale (added for muse-code.md)
+
+- [58] sumersports 2024 dataset release, 280mb compressed / 1.6gb uncompressed: https://github.com/SumerSports/SportsTrackingTransformer/releases/tag/data-v1.0
+- [59] 2023 layout + weekly tracking ~1.5gb each: https://github.com/kenjaro70/nfl-blitz-predictor/blob/HEAD/README.md
+- [60] GPHizerStats 2024 entry, lightgbm over xgboost for speed/memory: https://github.com/GPHizerStats/BigDataBowl2024
+- [61] 2026 trajectory ensemble, xgboost/lightgbm/catboost + groupkfold + optuna: https://github.com/shevchenko9liza/nfl-player-trajectory-prediction
+- [62] 2024 convnet frame-by-frame tackle probability: https://github.com/tim-roy/nfl_big_data_bowl_2024
+- [63] 2025 entry, speed/accel/distance + formation features: https://github.com/vijeethvj8/nfl-big-data-bowl-2025
+- [64] kaggle free-tier quotas via mirror (30 gpu hrs/wk, verify on kaggle): https://github.com/mcauser/free-for-dev/blob/HEAD/README.md
+- [65] ai assistant adoption via mirror of stack overflow 2025 survey (general devs, not kaggle-only): https://quashbugs.com/blog/ai-coding-assistant-market-share-statistics
+- [66] muse-code-pro 0-100 guide (sibling repo): https://github.com/heraldstack/muse-code-pro
+
 ## known gaps (do not cite as settled)
 
 2026 prediction names/scores; 2026 eval api mechanics; official data
