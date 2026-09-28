@@ -1,124 +1,17 @@
-# muse code for bowl prep: a participant's answer
+# muse code
 
-a participant asked: with limited experience at this data scale, is
-muse code worth using while researching how to manipulate the data?
-short answer: yes. what follows is the recommendation, the learning
-path, and exactly which capability helps at each step. bracketed
-numbers are sources in [references](references.md).
+use meta muse code as the working interface to this repo. open with `muse` for interactive pairing and reach for `muse exec` when a job should run headless across whole week files. the full tool manual lives in the companion guide [66], sections 40 (exec), 50 (skills), 70 (sandbox, permissions), 90 (glimmer local delegate).
 
-companion guide (the tool itself, 0-100):
-https://github.com/heraldstack/muse-code-pro [66].
+start every session by pointing the agent at the repo itself. have it read `docs/data-guide.md` for the tracking spec, `data/README.md` for what is seeded where, `samples/README.md` for the runnable slices, and `scripts/make_samples.py` for how those slices were cut. field semantics come from a 2024 community mirror [43], so tell the agent to check anything it touches against the current year's data dictionary, since schemas drift year to year and mirrors lag it. the seeded working set is `data/2024/` with games, plays, players, tackles plus tracking weeks 1-9 at about 1.6gb uncompressed (280mb compressed) [58], and `data/2025/` with games, players, plays, player_play plus tracking weeks 1-9 at about 7.7gb total [25]. weekly tracking files run around 1.5gb each [59], all of it 10-frames-per-second csv [46]. the in-git fallback is `samples/2024/tracking_sample.csv` with 25 plays and 19,113 frames, and `samples/2025/tracking_sample.csv` with 25 plays and 92,069 frames, cut deterministically by `uv run python scripts/make_samples.py`.
 
-## why yes, concretely
+explore tracking data by asking small questions against one sample first, then scaling the kept query. a typical flow is to open `muse` and ask it to load `samples/2024/tracking_sample.csv` joined to `samples/2024/games.csv`, `plays.csv`, and `players.csv` on gameId, gameId plus playId, and nflId, then plot one play with 22 dots plus the ball and narrate what x, y, s, a, dis, o, dir, and event mean for a single frame. once the sample query reads correctly, hand the same prompt to `muse exec` pointed at `data/2024/tracking_week_1.csv` and let it run the per-week loop while you stay interactive. joins to nflverse parquet in `data/nflverse/` go through old_game_id and play_id with play_id cast to int first, since it reads as float.
 
-1. the scale is real but tractable, and that is exactly where a
-   coding assistant earns its keep. weekly tracking files run ~1.5gb
-   each [59]; the 2024 set is 280mb compressed, 1.6gb uncompressed
-   [58]; one 2025 mirror reports ~7.7gb of tracking total [25]. all
-   of it is 10-frames-per-second csv [46]. the beginner failure mode
-   is loading all of it into memory at once. muse code writes the
-   chunked reads, the per-week loops, and the parquet conversions
-   for you, and explains each line when you ask.
-2. winning pipelines are code-heavy iteration loops, not one clever
-   model. public entries show the shape: gradient-boosted trees
-   (lightgbm picked over xgboost for speed and memory [60]),
-   xgboost / lightgbm / catboost ensembles with group-by-play folds
-   and optuna tuning [61], frame-by-frame convnets for tackle
-   probability [62], and hand-built features from speed, accel, and
-   distance to the line [63]. every one of those rewards fast,
-   repeatable edit-run-plot cycles - the thing an agentic cli
-   automates.
-3. ai-assisted coding is mainstream practice now, including on
-   kaggle-style work. stack overflow's 2025 survey cohort using ai
-   agents reported 81.7% chatgpt, 67.9% copilot, 40.8% claude code
-   use [65] (general developers, not kaggle-only - no kaggle-only
-   assistant survey was found). the contest still grades your
-   football thinking, not your tooling: judges are team analysts
-   who know more football than you (see [craft](craft.md)), so use
-   the assistant for velocity and keep your own judgment on the
-   question being asked.
+build manipulation pipelines the same way, one conversion at a time. weekly csvs are too big to hold in memory, so the pattern is chunked reads with pandas chunksize or a polars scan plus sink, aggregating per week and converting each week to parquet once so every later run gets much faster. keep raw csvs read-only and write intermediates to a scratch dir that one command rebuilds end to end, starting from `data/2024/tracking_week_*.csv` and ending in `data/scratch/`. ask the agent to write that rebuild script before it writes any feature code, and budget disk around 2gb per weekly file uncompressed [58][59].
 
-## 0-to-competing learning path
+grow features from the frame level up, the way the league itself builds these stats with per-player features aggregated to a play stat. proven shapes to mirror are speed, accel, and distance-to-line features with formation encodings [63], frame-by-frame convnets for tackle probability [62], and gradient-boosted trees where lightgbm was picked over xgboost for speed and memory [60]. start with a lasso-logistic baseline carrying base rates and cross-validated accuracy with standard errors, then move to xgboost, lightgbm, and catboost ensembles with group-by-play folds and optuna tuning [61], one seed and one config per output dir so runs stay comparable.
 
-### step 1: understand the data (days 1-3)
+capture anything that works twice as a project skill under `.agents/skills/<name>/SKILL.md` with the procedure plus the script, so the next session inherits the scaling pattern instead of rediscovering it. the chunk-to-parquet loop is the first skill worth writing, the join-and-slice helper from `scripts/make_samples.py` is the second, and the baseline-then-ensemble harness is the third. the companion skill format is in guide section 50 [66].
 
-goal: open one week of tracking, join it to games/plays/players,
-and plot one play. start from [data-guide](data-guide.md), then
-the `samples/` slices and `notebooks/` starters in this repo.
+run batch exploration with `muse exec`, one headless prompt per question, each writing its own csv plus png into the scratch dir. this is how overnight sweeps across all nine weeks stay manageable: queue the prompts, read the plots in the morning, and promote only the keepers into skills or the pipeline. prototype feature drafts and review loops against the free local glimmer delegate per guide section 90 [66] and reserve paid apis or kaggle gpu time for kept runs, since the kaggle free tier grants about 30 gpu hours per week [64]. submit from kaggle and keep prototyping local.
 
-muse mapping: interactive pairing (`muse` tui). ask it to narrate
-each column as it touches it, and to stop at anything that
-contradicts the year's data dictionary - schemas drift year to
-year, and mirrors are not the dictionary (see data-guide gaps).
-
-exit check: you can say what x, y, s, a, dis, o, dir, event mean
-for one frame of one play, and your plot shows 22 dots + a ball.
-
-### step 2: manipulate at scale (days 4-10)
-
-goal: process all weeks without melting your machine. the skills
-are chunked reads (pandas chunksize or polars scan + sink),
-per-week aggregation loops, and converting csv weeks to parquet
-once so every later run is 10x faster.
-
-muse mapping: `muse exec` for batch exploration - one headless
-prompt per question ("mean defender speed by week, all weeks,
-write csv + png"), run overnight across weeks. save what works as
-a project skill (`.agents/skills/<name>/SKILL.md`: procedure +
-script), so step-3 you inherits step-2 you. the companion guide's
-sections 40 (exec) and 50 (skills) are the manual [66].
-
-exit check: a one-command script rebuilds every intermediate file
-from raw csvs. disk budget: plan for ~2gb per weekly file
-uncompressed [58][59].
-
-### step 3: feature pipelines (days 11-20)
-
-goal: frame-level features, aggregated to play-level rows the way
-the league itself builds these stats (per-player features, then a
-play stat - see data-guide reference models). mirror the public
-entry patterns: speed/accel/distance features [63], formation
-encodings, then a simple lasso-logistic baseline before anything
-fancy (yurko's discipline, [craft](craft.md)).
-
-muse mapping: sandbox + permissions for safe iteration. let the
-agent run profiling and plotting freely, but keep writes scoped:
-raw data read-only, outputs to a scratch dir. the companion
-guide's section 70 (sandbox, permissions) is the setup [66].
-
-exit check: baseline with cross-validated accuracy, standard
-errors, and base rates next to it. no baseline, no step 4.
-
-### step 4: model iterations (days 21+)
-
-goal: boosted-tree ensembles with group-by-play folds [61], tuned
-with optuna, compared honestly against the step-3 baseline. keep
-every run reproducible: one seed, one config, one output dir.
-
-muse mapping: local review before metered spend. draft and review
-loops run against the free local delegate (glimmer,
-no per-token api spend) and only the kept runs go to paid apis or
-burn kaggle's weekly gpu quota (30 gpu hrs/wk on the free tier
-[64]) - so prototype features locally, submit from kaggle. the
-companion guide's section 90 (glimmer) is the setup [66].
-
-exit check: an ensemble that beats the baseline under grouped cv,
-with a one-paragraph honest limitations note (patton tip 14,
-[craft](craft.md)).
-
-## what muse code does not do for you
-
-- football judgment. graders do this nights and weekends and know
-  the game cold - answer the prompt, don't solve all of football
-  ([craft](craft.md)).
-- the current year's data dictionary. fetch the real one from
-  kaggle at entry time; mirrors (including this repo) lag it.
-- your writeup. half-assed explanations never get through, and a
-  proofread by a human friend is still easy points ([craft](craft.md)).
-
-## if you only do three things
-
-1. `samples/` + one `muse exec` prompt per question, batched.
-2. one skill file capturing your scaling pattern (chunk, parquet,
-   loop).
-3. baseline with base rates before any ensemble.
+keep sandbox discipline tight while iterating. let the agent run profiling and plotting freely but scope writes so `data/` stays read-only and everything new lands under the scratch dir or `samples/`. set that up once per guide section 70 [66] and recheck it whenever a prompt starts touching raw weeks directly.
