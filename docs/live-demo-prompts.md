@@ -95,10 +95,13 @@ prompt:
 intro (30s): "fifth terminal runs the season while we talk."
 +60min: per-week accuracy table. fallback: sample slice plot.
 
-preseeded plays (all in samples/2024, verified in repo):
+preseeded plays (2024 week 1 raw, game 2022090800 Bills at Rams):
 
-- game 2022090800 play 56 — Bills at Rams, Diggs catch frame 12.
-- frame 97 same play — tackle close, second vision input.
+- play 56 — Diggs catch. vision batch: pre1, mid12, late22.
+- play 80 — second play, same treatment: pre1, mid16, late30.
+- play 101 — third play: pre1, mid25, late49.
+- nine frames staged in data/scratch/vision_batch/, pre plus mid
+  plus late per play. glimmer warm on all nine, spark on mid16.
 - fan-out questions: fastest ball-carrier per play; mean defender
   distance at pass arrival; quarterback over 3 yards per second
   at throw. join keys gameid, playid, nflid.
@@ -112,7 +115,9 @@ prompt:
 > check four panes and report green or red each: tail the deploy
 > log, guard_data.sh check in the NFL repo, curl
 > https://clouddelnorte.org/not-frogger/ and head it, curl the
-> glimmer healthz. own the first red pane, park the rest.
+> glimmer healthz. dist ECC3LP1BL2CZS confirmed live serving
+> clouddelnorte.org off s3-website-us-east-1, profile
+> aerospaceug-admin sso verified, prefix empty and clear.
 
 intro (30s): "sixth terminal watches everything else."
 +60min: four green. fallback: own the first red, park the rest.
