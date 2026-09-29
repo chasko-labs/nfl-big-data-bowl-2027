@@ -1,11 +1,31 @@
 # live demo prompts — virtual event, 1 hour unattended
 
-how to run: open one terminal per block, cd to the dir, paste the prompt
-into muse, walk away. intro talk track + what to check at +60min below.
+how to run: fire T1 first (local box, no network), then T2 through T6.
+open one terminal per block, cd to the dir, paste the prompt into muse,
+walk away. intro talk track + what to check at +60min below.
 
 ---
 
-## T1 — full pipeline sweep (the long job)
+## T1 — glimmer vision batch (fires first, runs local)
+
+dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
+needs: quiet card. if the card is busy, skip this terminal.
+
+prompt:
+
+> for each png in
+> ~/code/chasko-labs/nfl-big-data-bowl-2027/data/scratch/play\_\*.png,
+> describe the football play in two sentences through the local
+> endpoint at http://127.0.0.1:8181/v1: who has the ball, what the
+> coverage looks like. save lines to /tmp/vision_batch.md. keep
+> reasoning_strength low so it answers instead of thinking aloud.
+
+intro (30s): "first terminal asks the local box to watch football."
++60min: read two descriptions aloud, show the plots they describe.
+fallback: "card was busy — the deck already holds the vision numbers
+slide from last run: 135 seconds, correct down to the subtitle."
+
+## T2 — full pipeline sweep (the long job)
 
 dir: ~/code/chasko-labs/nfl-big-data-bowl-2027
 
@@ -19,11 +39,11 @@ prompt:
 > samples/2025 instead and say so up front. report per-week accuracy
 > with standard errors at the end.
 
-intro (30s): "this terminal runs the whole season while we talk."
+intro (30s): "second terminal runs the whole season while we talk."
 +60min: per-week accuracy table in data/scratch/. fallback: "sweep is
 still running — the sample slice already finished, here is its plot."
 
-## T2 — one-shot game from scratch (cookbook recipe, live)
+## T3 — one-shot game dev from scratch (cookbook recipe, live)
 
 dir: ~/code/game-crossy (new, empty)
 
@@ -40,11 +60,11 @@ prompt:
 > move on grid, cars kill only on real overlap, logs ride, runs via
 > python3 minus m http.server with zero console errors.
 
-intro (30s): "second terminal builds a game from one prompt."
+intro (30s): "third terminal builds a game dev demo from one prompt."
 +60min: serve it, play it on the shared screen, show the file count.
 fallback: show the cookbook crossy screenshots, narrate the prompt.
 
-## T3 — sumerian squares iterative pass (our game, our assets)
+## T4 — sumerian squares iterative pass (our game dev assets)
 
 dir: ~/code/sumerian-hosts
 rule: additive only. new files welcome, no edits to existing sources.
@@ -59,12 +79,12 @@ prompt:
 > build:wasm and a playwright screenshot at 720p saved into the new
 > dir. report the screenshot path when done.
 
-intro (30s): "third terminal extends our shipped squares game."
+intro (30s): "fourth terminal extends our shipped squares game dev."
 +60min: open the screenshot, then the page, click a host.
 fallback: play the live https://bryanchasko.com/sumerian-squares/
 and narrate what the prompt asked for.
 
-## T4 — parallel question fan-out (the speed story)
+## T5 — parallel question fan-out (the speed story)
 
 dir: ~/code/chasko-labs/nfl-big-data-bowl-2027
 
@@ -79,33 +99,14 @@ prompt:
 >    use join keys gameid, playid, nflid. print the three file paths
 >    when done.
 
-intro (30s): "third terminal answers three questions at once."
+intro (30s): "fifth terminal answers three questions at once."
 +60min: three csvs plus pngs, read the fastest speed aloud.
 fallback: read whichever of the three finished first.
 
-## T5 — glimmer vision batch (the one glimmer experiment)
+## T6 — iterative refine pass on the T3 build (cookbook loop, live)
 
-dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
-needs: quiet card. if the card is busy, skip this terminal.
-
-prompt:
-
-> for each png in
-> ~/code/chasko-labs/nfl-big-data-bowl-2027/data/scratch/play\_\*.png,
-> describe the football play in two sentences through the local
-> endpoint at http://127.0.0.1:8181/v1: who has the ball, what the
-> coverage looks like. save lines to /tmp/vision_batch.md. keep
-> reasoning_strength low so it answers instead of thinking aloud.
-
-intro (30s): "fifth terminal asks the local box to watch football."
-+60min: read two descriptions aloud, show the plots they describe.
-fallback: "card was busy — the deck already holds the vision numbers
-slide from last run: 135 seconds, correct down to the subtitle."
-
-## T6 — iterative refine pass on the T2 build (cookbook loop, live)
-
-dir: ~/code/game-crossy (same dir as T2, starts after T2 lands)
-needs: T2 index.html exists. if T2 failed, skip this terminal.
+dir: ~/code/game-crossy (same dir as T3, starts after T3 lands)
+needs: T3 index.html exists. if T3 failed, skip this terminal.
 
 prompt:
 
@@ -118,6 +119,6 @@ prompt:
 > screenshot after every pass into shots/, read the console for
 > errors, fix what you see. report the three screenshots when done.
 
-intro (30s): "sixth terminal polishes the game while we talk."
+intro (30s): "sixth terminal polishes the game dev build."
 +60min: flip through the three screenshots, play the final build.
-fallback: play the T2 build as-is, narrate the three passes.
+fallback: play the T3 build as-is, narrate the three passes.
