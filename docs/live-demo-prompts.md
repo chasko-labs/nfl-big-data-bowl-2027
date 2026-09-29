@@ -94,21 +94,17 @@ dir: /home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027/
 
 prompt:
 
-> guard snapshot first with scripts/guard_data.sh snapshot, then
-> bash scripts/sweep_weeks.sh twice: default pass covers 2024 weeks
-> 1-9, second pass with BDB_DATA=data/2025 covers 2025 weeks 1-9.
-> then features plus lasso baseline per week. every csv plus png
-> into data/scratch/, never touch data/ raw. if data/ is missing
-> weeks, run samples/2024 plus samples/2025 instead and say so up
-> front. report per-week accuracy with standard errors at the end.
-> trial note, all timed live on full data: 2024 features 408s,
-> 24,966 side-rows, base first-down 0.369, lasso 0.779 plus-minus
-> 0.001 in 8s. 2025 is 7.7GB, features took ~35min, 32,248 rows,
-> base 0.292, lasso 0.743 plus-minus 0.003 in 8s. full two-year
-> run fits the hour but tight — fire T5 early. sweep landed real
-> answers: JUMBO 0.478 plus EMPTY 0.461 top formations, SHOTGUN
-> 0.403 on 6,378 plays; top events first_contact 242k, tackle
-> 231k, ball_snap 145k. csv plus png per question in scratch.
+> live run is verification plus fast answers, about 5 minutes.
+> full features are prebuilt (2024 408s, 2025 ~35min) and staged
+> in data/scratch — never rebuild unless guard mismatches. run:
+> guard snapshot plus check, re-run the two sweep questions live
+> (events, formations, minutes), re-run both lasso baselines live
+> (8s each, expect 0.779 plus-minus 0.001 and 0.743 plus-minus
+> 0.003). report the staged answers: JUMBO 0.478 plus EMPTY 0.461
+> top formations, SHOTGUN 0.403 on 6,378 plays; top events
+> first_contact 242k, tackle 231k, ball_snap 145k. every csv plus
+> png into data/scratch/, never touch data/ raw. only on guard
+> mismatch: rebuild features first, then continue.
 
 intro (30s): "fifth terminal runs the season while we talk."
 +60min: per-week accuracy table. fallback: sample slice plot.
