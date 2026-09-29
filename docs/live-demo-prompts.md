@@ -15,19 +15,23 @@ prompt:
 > start the local stack: valkey bridge, then glimmer_supervisor.py.
 > expect the OpenAI-compat endpoint up at http://127.0.0.1:8181 and
 > the VRAM floor holding per rocm-smi. report healthz plus free VRAM.
-> honor gpu_lock: if the lock is held, wait and retry, never force.
+> precondition: ~12GB VRAM free. comfyui plus sibling jobs hold VRAM
+> without the lock, so coordinate with their owners before showtime.
+> honor gpu_lock: if the lock is held, wait and retry, never force,
+> never kill sibling processes.
 
 intro (30s): "first terminal wakes the local box. no cloud spend."
-+60min: healthz up, no OOM. fallback: cold restart supervisor; if
-VRAM low, stop the comfyui bridge first.
++60min: healthz up, no OOM. fallback: cold restart supervisor.
+trial note: backend_down plus 7GB held observed pre-show — normal
+until VRAM is coordinated quiet.
 
 ## T2 — frogger one-shot game dev
 
-dir: ~/code/frogger (mkdir -p ~/code/frogger first)
+dir: ~/code/frogger (AGENTS.md pre-staged, trial-built clean)
 
 prompt:
 
-> write AGENTS.md first, then build in one pass, no iteration:
+> read AGENTS.md, then build in one pass, no iteration:
 > grid 13 wide by 14 tall. road lanes with cars, river lanes with
 > logs and turtles, 5 home bays, 3 lives, score for forward hops
 > plus home fills. collision by rectangle overlap on lane rows.
@@ -51,9 +55,9 @@ prompt:
 > with exact timestamps plus no-cache, then a cloudfront
 > invalidation on /not-frogger/\* only, then curl the url and head it.
 > never run npm run build, never sync lib/ or root. if SSO expired,
-> say so and stop — do not work around auth. [VERIFY distribution
->
-> > id plus profile at showtime.]
+> say so and stop — do not work around auth. dist ECC3LP1BL2CZS,
+> profile aerospaceug-admin, both verified live pre-show. 404 on
+> the url before first deploy is expected, not a failure.
 
 intro (30s): "third terminal ships the game dev build to the public url."
 +60min: last-modified on the url matches deploy time.
@@ -70,9 +74,12 @@ prompt:
 > correct, wrong, win, lose, tie onto BabylonEngineAdapter gesture
 > plus emote calls — correct cheers big, wrong goes bored plus
 > defense, win applauds with heart, lose goes aggressive, tie waves.
-> call availableGestures() plus availableEmotes() first and only use
-> calls that exist. wire it into the playground, screenshot at 720p
-> via playwright into the new dir, report the screenshot path.
+> await loadHost() first (gesture, emote, available lists all throw
+> before it), then call availableGestures() plus availableEmotes()
+> and only use names that exist. gesture takes {holdMs}, emote
+> takes just a name, both return promises. hook reactions after
+> line 347 in examples/playground/main.ts where loadHost resolves.
+> screenshot at 720p via playwright into the new dir, report path.
 
 intro (30s): "fourth terminal teaches our squares hosts to react."
 +60min: open the screenshot, click a host, watch it cheer or sulk.
@@ -86,11 +93,14 @@ dir: /home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027/
 prompt:
 
 > guard snapshot first with scripts/guard_data.sh snapshot, then
-> bash scripts/sweep_weeks.sh across every week in data/, then
-> features plus lasso baseline per week. every csv plus png into
-> data/scratch/, never touch data/ raw. if data/ is missing weeks,
-> run samples/2024 plus samples/2025 instead and say so up front.
-> report per-week accuracy with standard errors at the end.
+> bash scripts/sweep_weeks.sh twice: default pass covers 2024 weeks
+> 1-9, second pass with BDB_DATA=data/2025 covers 2025 weeks 1-9.
+> then features plus lasso baseline per week. every csv plus png
+> into data/scratch/, never touch data/ raw. if data/ is missing
+> weeks, run samples/2024 plus samples/2025 instead and say so up
+> front. report per-week accuracy with standard errors at the end.
+> trial note: dry-run clean, guard ok, one full feature build timed
+> live — read the timing off the run, not this doc.
 
 intro (30s): "fifth terminal runs the season while we talk."
 +60min: per-week accuracy table. fallback: sample slice plot.
