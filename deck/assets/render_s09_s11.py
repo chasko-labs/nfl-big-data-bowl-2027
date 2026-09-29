@@ -14,28 +14,25 @@ GREEN = "#7BD88F"
 
 plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["DejaVu Sans"]})
 
-# ---------- Slide 9: real dry-run stdout as terminal ----------
+# ---------- Slide 9: EXCERPT of live dry-run stdout as terminal ----------
+# Excerpt captured live via `bash scripts/sweep_weeks.sh --dry-run`
+# (11 lines total; first lines shown wrapped, rest in the gold summary).
+# Full verbatim stdout is wrapped at WRAP_S09 chars; keep font >= 12pt.
+WRAP_S09 = 74
 TERMINAL_LINES = [
-    ("$ ", "bash scripts/sweep_weeks.sh --dry-run", LAV),
-    ("", "guard: snapshot of data/ at data/scratch/.guard_sweep.snap (82 files)", DIM),
+    ("$ ", "bash scripts/sweep_weeks.sh --dry-run", "ORANGE"),
+    ("", "guard: snapshot of data/ at", DIM),
+    ("", "/home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027/data/scratch/.guard_sweep.snap", DIM),
+    ("", "(82 files)", DIM),
     ("", "== sweep: speed ==", GOLD),
-    ("", "[dry-run] muse exec: repo at $ROOT. read docs/data-guide.md", LAV),
-    ("", "  and data/README.md first. input weeks: data/2024/", LAV),
-    ("", "  tracking_week_1.csv through tracking_week_9.csv", LAV),
-    ("", "  (chunked pandas reads, chunksize=200000). raw csvs read-only.", LAV),
-    ("", "  q: per-week distribution of player speed (s) ->", LAV),
-    ("", "  data/scratch/sweep_speed/speed.csv + speed.png", GREEN),
+    ("", "[dry-run] muse exec: repo at", LAV),
+    ("", "/home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027. read", LAV),
+    ("", "docs/data-guide.md and data/README.md first. input weeks:", LAV),
+    ("", "data/2024/tracking_week_1.csv through tracking_week_9.csv (chunked pandas", LAV),
     ("", "guard: ok, data/ unchanged", DIM),
     ("", "== sweep: events ==", GOLD),
-    ("", "[dry-run] muse exec: ... q: count non-null event tags per week", LAV),
-    ("", "  -> data/scratch/sweep_events/events.csv + events.png", GREEN),
-    ("", "guard: ok, data/ unchanged", DIM),
-    ("", "== sweep: formations ==", GOLD),
-    ("", "[dry-run] muse exec: ... join plays.csv on gameId+playId,", LAV),
-    ("", "  first-down rate by offenseFormation per week", LAV),
-    ("", "  -> data/scratch/sweep_formations/formations.csv + .png", GREEN),
-    ("", "guard: ok, data/ unchanged", DIM),
-    ("", "sweep done. promote keepers into .agents/skills/ or the pipeline.", GOLD),
+    ("", "[dry-run] muse exec: repo at", LAV),
+    ("", "+ 5 more lines: events + formations prompts, guard checks ok, data/ unchanged", GOLD),
 ]
 
 fig, ax = plt.subplots(figsize=(16, 9), dpi=150)
@@ -54,11 +51,15 @@ ax.text(8.0, 8.08, "sweep_weeks.sh --dry-run  |  guard_data.sh snapshot + check 
         color=DIM, fontsize=13, ha="center", va="center", family="monospace")
 ax.plot([0.4, 15.6], [7.78, 7.78], color=VIOLET, lw=1, alpha=0.6)
 
+ORANGE = "#FF9900"
+_COLORS = {"ORANGE": ORANGE}
 y = 7.35
 for prefix, body, color in TERMINAL_LINES:
-    ax.text(0.75, y, prefix + body, color=color, fontsize=12.2,
-            ha="left", va="top", family="monospace")
-    y -= 0.335
+    color = _COLORS.get(color, color)
+    ax.text(0.75, y, prefix + body, color=color, fontsize=14,
+            ha="left", va="top", family="monospace",
+            weight="bold" if color in (GOLD, ORANGE) else "normal")
+    y -= 0.40
 
 ax.text(0.75, 0.78, "source: REAL stdout of `bash scripts/sweep_weeks.sh --dry-run` (82-file guard snapshot, 3 prompts, data/ unchanged)",
         color=GOLD, fontsize=11, ha="left", va="top", style="italic")
