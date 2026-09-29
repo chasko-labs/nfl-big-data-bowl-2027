@@ -23,25 +23,48 @@ intro (30s): "this terminal runs the whole season while we talk."
 +60min: per-week accuracy table in data/scratch/. fallback: "sweep is
 still running — the sample slice already finished, here is its plot."
 
-## T2 — route-runner game, one prompt (the crowd-pleaser)
+## T2 — one-shot game from scratch (cookbook recipe, live)
 
-dir: ~/code/chasko-labs/nfl-big-data-bowl-2027 (new subdir game-route-runner/)
+dir: ~/code/game-crossy (new, empty)
 
 prompt:
 
-> in game-route-runner/, build a single-file three.js route-runner:
-> a receiver dodging defenders on real tracking coordinates from
-> ../samples/2024/tracking_sample.csv game 2022090800 play 56.
-> arrow keys move, defender positions come from the csv, catch wins,
-> tackle loses. static export plus index.html that runs from any host.
-> no build step. acceptance: loads with no console errors, playable
-> with keyboard, score persists in localstorage.
+> write AGENTS.md first: forward is negative z, score is minus row,
+> collision by mesh world position on x and z, water kills unless on
+> a log, logs drift without snapping x back to grid. then build a
+> crossy road clone as one self-contained index.html: three.js r160
+> via importmap, no build step, no npm. blocky animal player, 6
+> selectable variants, grid hop with squash and stretch, grass plus
+> road plus water plus rail lanes, coins, score and best in
+> localstorage, touch swipe plus d-pad. acceptance: wasd and arrows
+> move on grid, cars kill only on real overlap, logs ride, runs via
+> python3 minus m http.server with zero console errors.
 
-intro (30s): "second terminal builds a game out of the same data."
-+60min: open index.html from bryanchasko.com deploy, play it live.
-fallback: play the deployed copy, narrate the prompt that built it.
+intro (30s): "second terminal builds a game from one prompt."
++60min: serve it, play it on the shared screen, show the file count.
+fallback: show the cookbook crossy screenshots, narrate the prompt.
 
-## T3 — parallel question fan-out (the speed story)
+## T3 — sumerian squares iterative pass (our game, our assets)
+
+dir: ~/code/sumerian-hosts
+rule: additive only. new files welcome, no edits to existing sources.
+
+prompt:
+
+> additive change only, do not modify any existing file. add a new
+> demo page examples/squares-trivia/ that reuses the playground host
+> loader to put three hosts on screen side by side, each speaking a
+> different sumer trivia line on click. new files only plus one
+> paragraph in docs/setup.md pointing at it. verify with bun run
+> build:wasm and a playwright screenshot at 720p saved into the new
+> dir. report the screenshot path when done.
+
+intro (30s): "third terminal extends our shipped squares game."
++60min: open the screenshot, then the page, click a host.
+fallback: play the live https://bryanchasko.com/sumerian-squares/
+and narrate what the prompt asked for.
+
+## T4 — parallel question fan-out (the speed story)
 
 dir: ~/code/chasko-labs/nfl-big-data-bowl-2027
 
@@ -60,7 +83,7 @@ intro (30s): "third terminal answers three questions at once."
 +60min: three csvs plus pngs, read the fastest speed aloud.
 fallback: read whichever of the three finished first.
 
-## T4 — glimmer vision batch (the one glimmer experiment)
+## T5 — glimmer vision batch (the one glimmer experiment)
 
 dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
 needs: quiet card. if the card is busy, skip this terminal.
