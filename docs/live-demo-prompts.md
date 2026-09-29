@@ -13,12 +13,13 @@ dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
 prompt:
 
 > start the local stack: valkey bridge, then glimmer_supervisor.py.
-> expect the OpenAI-compat endpoint up at http://127.0.0.1:8181 and
-> the VRAM floor holding per rocm-smi. report healthz plus free VRAM.
-> precondition: ~12GB VRAM free. comfyui plus sibling jobs hold VRAM
-> without the lock, so coordinate with their owners before showtime.
-> honor gpu_lock: if the lock is held, wait and retry, never force,
-> never kill sibling processes.
+> expect the OpenAI-compat endpoint up at http://127.0.0.1:8181.
+> report healthz. glimmer is TEXT ONLY (no vision tower), locked
+> CPU mode NGL=0 after the ROCm hang — do not flip to GPU without
+> a reboot window. task: code-review scripts/baseline_lasso.py of
+> the NFL repo, report findings plus timings. vision frames are
+> Spark's job live, not glimmer's. honor gpu_lock: if the lock is
+> held, wait and retry, never force, never kill sibling processes.
 
 intro (30s): "first terminal wakes the local box. no cloud spend."
 +60min: healthz up, no OOM. fallback: cold restart supervisor.
@@ -115,8 +116,8 @@ preseeded plays (2024 week 1 raw, game 2022090800 Bills at Rams):
 - play 80 — second play, same treatment: pre1, mid16, late30.
 - play 101 — third play: pre1, mid25, late49.
 - nine frames staged in data/scratch/vision_batch/, pre plus mid
-  plus late per play. T1 warms glimmer on all nine at fire time
-  (blocked pre-show: VRAM held), spark takes mid16.
+  plus late per play. spark describes all nine live. glimmer is
+  text-only and never touches them.
 - fan-out questions: fastest ball-carrier per play; mean defender
   distance at pass arrival; quarterback over 3 yards per second
   at throw. join keys gameid, playid, nflid.
