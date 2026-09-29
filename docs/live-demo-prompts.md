@@ -114,7 +114,8 @@ preseeded plays (2024 week 1 raw, game 2022090800 Bills at Rams):
 - play 80 — second play, same treatment: pre1, mid16, late30.
 - play 101 — third play: pre1, mid25, late49.
 - nine frames staged in data/scratch/vision_batch/, pre plus mid
-  plus late per play. glimmer warm on all nine, spark on mid16.
+  plus late per play. T1 warms glimmer on all nine at fire time
+  (blocked pre-show: VRAM held), spark takes mid16.
 - fan-out questions: fastest ball-carrier per play; mean defender
   distance at pass arrival; quarterback over 3 yards per second
   at throw. join keys gameid, playid, nflid.
