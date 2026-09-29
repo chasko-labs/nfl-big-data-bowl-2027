@@ -97,7 +97,27 @@ prompt:
 > coverage looks like. save lines to /tmp/vision_batch.md. keep
 > reasoning_strength low so it answers instead of thinking aloud.
 
-intro (30s): "fourth terminal asks the local box to watch football."
+intro (30s): "fifth terminal asks the local box to watch football."
 +60min: read two descriptions aloud, show the plots they describe.
 fallback: "card was busy — the deck already holds the vision numbers
 slide from last run: 135 seconds, correct down to the subtitle."
+
+## T6 — iterative refine pass on the T2 build (cookbook loop, live)
+
+dir: ~/code/game-crossy (same dir as T2, starts after T2 lands)
+needs: T2 index.html exists. if T2 failed, skip this terminal.
+
+prompt:
+
+> playtest the index.html in ~/code/game-crossy and run three
+> refinement passes, verifying each in a real browser before moving
+> on: 1. camera — it must follow behind the player with smooth
+> lerp, never snap on turns. 2. feel — hop squash and stretch,
+> particle burst on death, camera shake. 3. difficulty — speed and
+> traffic scale with score. serve via python3 minus m http.server,
+> screenshot after every pass into shots/, read the console for
+> errors, fix what you see. report the three screenshots when done.
+
+intro (30s): "sixth terminal polishes the game while we talk."
++60min: flip through the three screenshots, play the final build.
+fallback: play the T2 build as-is, narrate the three passes.
