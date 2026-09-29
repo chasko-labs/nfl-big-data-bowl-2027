@@ -27,7 +27,9 @@ until VRAM is coordinated quiet.
 
 ## T2 — frogger one-shot game dev
 
-dir: ~/code/frogger (AGENTS.md pre-staged, trial-built clean)
+dir: ~/code/frogger (AGENTS.md pre-staged, trial-built clean: 8.3KB
+one-pass, node syntax ok, zero network refs, served 200, s3 dry-run
+uploads index.html only)
 
 prompt:
 
@@ -99,8 +101,9 @@ prompt:
 > into data/scratch/, never touch data/ raw. if data/ is missing
 > weeks, run samples/2024 plus samples/2025 instead and say so up
 > front. report per-week accuracy with standard errors at the end.
-> trial note: dry-run clean, guard ok, one full feature build timed
-> live — read the timing off the run, not this doc.
+> trial note: dry-run clean, guard ok, full 2024 feature build ran
+> 408s for 24,966 side-rows, base first-down rate 0.369. budget
+> ~7min per year for features, lasso on top — fits the hour.
 
 intro (30s): "fifth terminal runs the season while we talk."
 +60min: per-week accuracy table. fallback: sample slice plot.
