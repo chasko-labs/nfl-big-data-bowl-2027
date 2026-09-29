@@ -101,9 +101,14 @@ prompt:
 > into data/scratch/, never touch data/ raw. if data/ is missing
 > weeks, run samples/2024 plus samples/2025 instead and say so up
 > front. report per-week accuracy with standard errors at the end.
-> trial note: dry-run clean, guard ok, full 2024 feature build ran
-> 408s for 24,966 side-rows, base first-down rate 0.369. budget
-> ~7min per year for features, lasso on top — fits the hour.
+> trial note, all timed live on full data: 2024 features 408s,
+> 24,966 side-rows, base first-down 0.369, lasso 0.779 plus-minus
+> 0.001 in 8s. 2025 is 7.7GB, features took ~35min, 32,248 rows,
+> base 0.292, lasso 0.743 plus-minus 0.003 in 8s. full two-year
+> run fits the hour but tight — fire T5 early. sweep landed real
+> answers: JUMBO 0.478 plus EMPTY 0.461 top formations, SHOTGUN
+> 0.403 on 6,378 plays; top events first_contact 242k, tackle
+> 231k, ball_snap 145k. csv plus png per question in scratch.
 
 intro (30s): "fifth terminal runs the season while we talk."
 +60min: per-week accuracy table. fallback: sample slice plot.
