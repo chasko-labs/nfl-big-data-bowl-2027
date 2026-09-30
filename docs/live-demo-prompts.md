@@ -66,20 +66,24 @@ iterate it, never rewrite it. small diff, tests keep passing.
 
 prompt:
 
-> add src/host-answer-reactions.ts only: visual host reactions for
+> add src/host-answer-reactions.ts: visual host reactions for
 > right and wrong answers. read the existing pattern first: tap
-> moments in src/game-controller.ts (~lines 735-775) dispatch
-> playGesture plus playEmote from ./host-loader guarded by
-> hasEmote, with cell CSS pulse classes like sh-cell--tap-pulse.
-> keyword-to-gesture map lives in pickGestureForQuip in
-> src/question-presenter.ts. new module exports
-> reactToAnswer(cell, correct): on correct, applause emote if
-> hasEmote else big gesture, plus a cell pulse class; on wrong,
-> bored emote if hasEmote else aggressive gesture, plus a dim
-> class. only use gesture plus emote names that exist in
-> host-loader. wire it where answers resolve (follow playerDecision
-> in src/game.ts to its controller call site). run the existing
-> test suite for this dir before and after; new tests for the new
+> moments in src/game-controller.ts (~lines 736-774) dispatch
+> playGesture plus playEmote guarded by hasEmote, with cell CSS
+> pulse class sh-cell--tap-pulse removed after a timeout. new
+> module exports reactToAnswer(cell: HTMLElement, correct:
+> boolean): void — on correct, applause emote if hasEmote else
+> generic_a gesture, plus sh-cell--tap-pulse removed after 300ms;
+> on wrong, bored emote if hasEmote else aggressive gesture, plus
+> sh-cell--tap-pulse removed after 300ms. "big" is not a shipped
+> clip, never use it. import play functions via the static
+> ./engine re-export as game-controller.ts does, not dynamic
+> import. wire it by REPLACING the inline guard-then-fallback
+> reaction blocks at the answer call sites (onDecision for
+> playerDecision, plus the stealDecision call site) — replacement
+> of those blocks only, everything else untouched. run vitest for
+> assets/sumerian-squares from the repo root before and after,
+> plus tsc typecheck of the build config; new tests for the new
 > module only. report the diff stat plus test result.
 
 +60min: diff stat plus green tests, then play one round live.
