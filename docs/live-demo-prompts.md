@@ -1,8 +1,8 @@
 # live demo prompts — virtual event, 1 hour unattended
 
-fire T1 first (local box, no network), then fan out T2 through T5.
-T6 floats. one terminal per block: cd to the dir, paste the prompt
-into muse, walk away. showtime rechecks marked [VERIFY].
+five windows, five standalone demos. fire T1 first (local box),
+then fan out T2 through T4. T5 floats. one terminal per block: cd
+to the dir, start muse, paste the prompt, walk away.
 
 ---
 
@@ -12,21 +12,22 @@ dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
 
 prompt:
 
-> start the local stack: valkey bridge, then glimmer_supervisor.py.
-> expect the OpenAI-compat endpoint up at http://127.0.0.1:8181.
-> report healthz. glimmer is TEXT ONLY (no vision tower), locked
-> CPU mode NGL=0 after the ROCm hang — do not flip to GPU without
-> a reboot window. task: code-review scripts/baseline_lasso.py of
-> the NFL repo, report findings plus timings. vision frames are
-> Spark's job live, not glimmer's. honor gpu_lock: if the lock is
-> held, wait and retry, never force, never kill sibling processes.
+> glimmer is TEXT ONLY (no vision tower), locked CPU mode NGL=0
+> after the ROCm hang — do not flip to GPU without a reboot
+> window. backend is already warm: skip startup, go straight to
+> the task. read data/scratch/baseline_2024/metrics.csv plus
+> baseline_2025/metrics.csv in /home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027
+> and report exactly one line per year: year, accuracy, standard
+> error. then one final line naming the higher year and the gap.
+> keep every reply under 40 words — short outputs stay fast on CPU.
+> vision frames are Spark's job live, not glimmer's. honor
+> gpu_lock: if the lock is held, wait and retry, never force,
+> never kill sibling processes.
 
-intro (30s): "first terminal wakes the local box. no cloud spend."
-+60min: healthz up, no OOM. fallback: cold restart supervisor.
-trial note: backend_down plus 7GB held observed pre-show — normal
-until VRAM is coordinated quiet.
++60min: three-line report on screen, timed fast.
+fallback: cold restart supervisor, retry once.
 
-## T2 — frogger one-shot game dev
+## T2 — frogger build plus deploy (one demo, build then ship)
 
 dir: ~/code/frogger (AGENTS.md pre-staged, trial-built clean: 8.3KB
 one-pass, node syntax ok, zero network refs, served 200, s3 dry-run
@@ -42,50 +43,42 @@ prompt:
 > relative paths only. arrows plus wasd plus swipe. acceptance:
 > runs via python3 minus m http.server, zero console errors, frog
 > dies on road hit and water without a log, home bay fills score.
+> then immediately ship it, same session: scoped prefix sync only
+> with aws s3 sync . s3://clouddelnorte.org/not-frogger/
+> --profile aerospaceug-admin --delete, excluding AGENTS.md, then
+> a cloudfront invalidation on /not-frogger/\* only (dist
+> ECC3LP1BL2CZS), then curl the url and head it. never run npm run
+> build, never sync above the prefix. if SSO expired, say so and
+> stop — do not work around auth. report the live url at the end.
 
-intro (30s): "second terminal builds frogger from one prompt."
-+60min: serve it, play it on the shared screen.
-fallback: re-gen the single file only, never npm or build.
-
-## T3 — deploy not-frogger (starts after T2 lands)
-
-dir: anywhere holding the T2 index.html
-
-prompt:
-
-> publish this dir to https://clouddelnorte.org/not-frogger/ with a
-> scoped prefix sync only: aws s3 sync <DIR>/ s3://clouddelnorte.org/not-frogger/
-> with exact timestamps plus no-cache, then a cloudfront
-> invalidation on /not-frogger/\* only, then curl the url and head it.
-> never run npm run build, never sync lib/ or root. if SSO expired,
-> say so and stop — do not work around auth. dist ECC3LP1BL2CZS,
-> profile aerospaceug-admin, both verified live pre-show. 404 on
-> the url before first deploy is expected, not a failure.
-
-intro (30s): "third terminal ships the game dev build to the public url."
-+60min: last-modified on the url matches deploy time.
++60min: https://clouddelnorte.org/not-frogger/ flips 404 to playable.
 fallback: `aws login` then retry; mac mini scp as last resort.
 
-## T4 — sumerian squares reactions (real feature, additive only)
+## T3 — squares iteration on the live game (real feature)
 
-dir: /home/bryanchasko/code/sumerian-hosts
-rule: new files only. never touch src/engine-adapter/_ or src/core/_.
+dir: /home/bryanchasko/code/websites/bryan-chasko-com/assets/sumerian-squares
+rule: this is the deployed bryanchasko.com/sumerian-squares game.
+iterate it, never rewrite it. small diff, tests keep passing.
 
 prompt:
 
-> add src/game/hostReactions.ts only: map game events square-claim,
-> correct, wrong, win, lose, tie onto BabylonEngineAdapter gesture
-> plus emote calls — correct cheers big, wrong goes bored plus
-> defense, win applauds with heart, lose goes aggressive, tie waves.
-> await loadHost() first (gesture, emote, available lists all throw
-> before it), then call availableGestures() plus availableEmotes()
-> and only use names that exist. gesture takes {holdMs}, emote
-> takes just a name, both return promises. hook reactions after
-> line 347 in examples/playground/main.ts where loadHost resolves.
-> screenshot at 720p via playwright into the new dir, report path.
+> add src/host-answer-reactions.ts only: visual host reactions for
+> right and wrong answers. read the existing pattern first: tap
+> moments in src/game-controller.ts (~lines 735-775) dispatch
+> playGesture plus playEmote from ./host-loader guarded by
+> hasEmote, with cell CSS pulse classes like sh-cell--tap-pulse.
+> keyword-to-gesture map lives in pickGestureForQuip in
+> src/question-presenter.ts. new module exports
+> reactToAnswer(cell, correct): on correct, applause emote if
+> hasEmote else big gesture, plus a cell pulse class; on wrong,
+> bored emote if hasEmote else aggressive gesture, plus a dim
+> class. only use gesture plus emote names that exist in
+> host-loader. wire it where answers resolve (follow playerDecision
+> in src/game.ts to its controller call site). run the existing
+> test suite for this dir before and after; new tests for the new
+> module only. report the diff stat plus test result.
 
-intro (30s): "fourth terminal teaches our squares hosts to react."
-+60min: open the screenshot, click a host, watch it cheer or sulk.
++60min: diff stat plus green tests, then play one round live.
 fallback: play https://bryanchasko.com/sumerian-squares/ live and
 narrate what the prompt asked for.
 
