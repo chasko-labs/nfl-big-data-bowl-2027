@@ -12,17 +12,17 @@ dir: ~/code/heraldstack/heraldstack-firecracker/muse-code/glimmer
 
 prompt:
 
-> glimmer is TEXT ONLY (no vision tower), locked CPU mode NGL=0
-> after the ROCm hang — do not flip to GPU without a reboot
-> window. backend is already warm: skip startup, go straight to
-> the task. read data/scratch/baseline_2024/metrics.csv plus
-> baseline_2025/metrics.csv in /home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027
-> and report exactly one line per year: year, accuracy, standard
-> error. then one final line naming the higher year and the gap.
-> keep every reply under 40 words — short outputs stay fast on CPU.
-> vision frames are Spark's job live, not glimmer's. honor
-> gpu_lock: if the lock is held, wait and retry, never force,
-> never kill sibling processes.
+> produce tonight's three-line score report using only the local
+> box. steps: 1) confirm it answers: curl
+> http://127.0.0.1:8181/healthz. 2) read these two finished files:
+> /home/bryanchasko/code/chasko-labs/nfl-big-data-bowl-2027/data/scratch/baseline_2024/metrics.csv
+> and .../baseline_2025/metrics.csv. 3) hand both numbers to the
+> local endpoint at http://127.0.0.1:8181/v1/chat/completions and
+> get back one line per year (year, accuracy, standard error) plus
+> a final line naming the higher year and the gap, 40 words max. 4) report the three lines plus elapsed seconds. rules: local
+> endpoint only, never the cloud; short outputs stay fast on CPU;
+> text in, text out — it cannot see images, do not send any; if
+> gpu_lock is held, wait and retry, never force.
 
 +60min: three-line report on screen, timed fast.
 fallback: cold restart supervisor, retry once.
