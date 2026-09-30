@@ -35,14 +35,18 @@ uploads index.html only)
 
 prompt:
 
-> read AGENTS.md, then build in one pass, no iteration:
-> grid 13 wide by 14 tall. road lanes with cars, river lanes with
-> logs and turtles, 5 home bays, 3 lives, score for forward hops
-> plus home fills. collision by rectangle overlap on lane rows.
-> one self-contained index.html, canvas 2d, no build step, no npm,
-> relative paths only. arrows plus wasd plus swipe. acceptance:
-> runs via python3 minus m http.server, zero console errors, frog
-> dies on road hit and water without a log, home bay fills score.
+> read AGENTS.md and follow it exactly — it carries the
+> coordinate, collision, and log-riding rules that prevent
+> invisible bugs. then build in one pass, no iteration: grid 13
+> wide by 14 tall. road lanes with cars, river lanes with logs
+> and turtles, 5 home bays, 3 lives, score for forward hops plus
+> home fills. one self-contained index.html, canvas 2d, no build
+> step, no npm, relative paths only. arrows plus wasd plus swipe.
+> run this window at maximum reasoning effort. acceptance (your
+> definition of done): runs via python3 minus m http.server, zero
+> console errors, cars kill only on real rect overlap, logs are
+> rideable with drift and water without a log kills, home bays
+> fill once and stay filled.
 > then immediately ship it, same session: scoped prefix sync only
 > with aws s3 sync . s3://clouddelnorte.org/not-frogger/
 > --profile aerospaceug-admin --delete, excluding AGENTS.md, then
